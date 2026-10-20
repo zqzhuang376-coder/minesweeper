@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f2">
+  <meta name="description" content="方寸，一款清爽的经典扫雷小游戏。三种难度、首次点击安全，给大脑放个小假。">
+  <title>方寸 · 经典扫雷</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="i-mine" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="currentColor" stroke="none"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4M5 5l3 3m8 8 3 3M5 19l3-3m8-8 3-3"/><circle cx="10" cy="10" r="1.4" fill="var(--shine,#fff)" stroke="none"/></symbol>
+      <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V3m0 1c4-4 8 4 13 0v10c-5 4-9-4-13 0" /><path d="M3 21h6"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 6.3A8 8 0 0 1 20 12M4 12a8 8 0 0 0 13.9 5.7"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 3h8v7a4 4 0 0 1-8 0V3Zm0 2H4v3a4 4 0 0 0 4 4m8-7h4v3a4 4 0 0 1-4 4M12 14v6m-4 1h8"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2c-1 .7-1.5 1-1.5 2.5M12 17h.01"/></symbol>
+      <symbol id="i-sound" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5V4Zm4 4a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+      <symbol id="i-mute" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5V4Zm5 5 6 6m0-6-6 6"/></symbol>
+      <symbol id="i-mouse" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="6"/><path d="M6 10h12M12 2v8"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></symbol>
+    </defs>
+  </svg>
+  <header class="site-header">
+    <a href="./" class="brand" aria-label="方寸扫雷首页">
+      <span class="brand-mark"><svg class="icon"><use href="#i-mine"/></svg></span>
+      <span class="brand-name">方寸<span class="brand-divider">/</span><span class="brand-caption">经典扫雷</span></span>
+    </a>
+    <div class="header-right">
+      <span class="header-tagline">给大脑，放个小假。</span>
+      <span class="header-divider"></span>
+      <button id="sound-toggle" class="icon-button" title="开启音效" aria-label="开启音效" aria-pressed="false"><svg class="icon"><use href="#i-mute"/></svg></button>
+      <button id="help-open" class="icon-button" title="玩法说明" aria-label="玩法说明"><svg class="icon"><use href="#i-help"/></svg></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div>
+        <div class="eyebrow"><span></span> LESS RUSH, MORE REASON.</div>
+        <h1>下一格，祝你好运<span class="heading-dot">。</span></h1>
+        <p>一点推理，一点勇气。找出所有安全的方格，就是胜利。</p>
+      </div>
+      <div class="intro-decoration" aria-hidden="true">
+        <span class="mini-cell number">1</span><span class="mini-cell closed"></span><span class="mini-cell closed flag"><svg class="icon"><use href="#i-flag"/></svg></span>
+      </div>
+    </section>
+
+    <div class="play-layout">
+      <section class="game-card" aria-label="扫雷游戏">
+        <div class="game-toolbar">
+          <div class="counter-group">
+            <span class="counter-label"><svg class="icon"><use href="#i-flag"/></svg> 剩余地雷</span>
+            <span id="mine-counter" class="counter-number">010</span>
+          </div>
+          <button id="face-button" class="face-button" title="重新开始" aria-label="重新开始">
+            <svg id="face" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18"/><path class="eye" d="M16 18h.01M28 18h.01"/><path id="mouth" d="M15 25q7 8 14 0"/></svg>
+          </button>
+          <div class="counter-group time-group">
+            <span class="counter-label"><svg class="icon"><use href="#i-clock"/></svg> 用时</span>
+            <span class="time-counter"><span id="timer" class="counter-number">000</span><span class="seconds">s</span></span>
+          </div>
+        </div>
+        <div class="board-area">
+          <div class="board-topline"><span id="board-mode-label">初级 · 9 × 9</span><span class="safe-tag"><span class="tiny-spark">✧</span> 第一下，放心点</span></div>
+          <div id="board-scroll" class="board-scroll">
+            <div id="board" class="board" role="grid" aria-label="扫雷棋盘" aria-rowcount="9" aria-colcount="9"></div>
+          </div>
+          <div class="board-footer">
+            <div id="status-line" class="status-line" role="status" aria-live="polite"><span class="status-dot"></span><span id="status-text">准备好了，点一格开始吧</span></div>
+            <span id="progress-text" class="progress-text">0 / 71</span>
+          </div>
+          <div class="progress-track"><span id="progress-bar"></span></div>
+        </div>
+        <div class="game-bottom">
+          <div class="input-mode" role="group" aria-label="点击操作">
+            <button id="reveal-mode" class="mode-button active" aria-pressed="true"><svg class="icon"><use href="#i-mouse"/></svg> 翻开</button>
+            <button id="flag-mode" class="mode-button" aria-pressed="false"><svg class="icon"><use href="#i-flag"/></svg> 插旗</button>
+          </div>
+          <button id="restart" class="restart-button"><svg class="icon"><use href="#i-refresh"/></svg><span>再来一局</span></button>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="difficulty-card" aria-labelledby="difficulty-title">
+          <div class="section-top"><h2 id="difficulty-title">今天，挑战哪一关？</h2><span class="small-label">LEVEL</span></div>
+          <div id="difficulty-options" class="difficulty-options" role="group" aria-label="选择难度">
+            <button class="difficulty-option selected" data-level="easy" aria-pressed="true">
+              <span class="level-icon"><span></span><span></span><span></span></span>
+              <span class="level-copy"><strong>初级</strong><span>9 × 9<span class="meta-dot">·</span>10 颗地雷</span></span>
+              <span class="level-radio"><span></span></span>
+            </button>
+            <button class="difficulty-option" data-level="medium" aria-pressed="false">
+              <span class="level-icon level-two"><span></span><span></span><span></span></span>
+              <span class="level-copy"><strong>中级</strong><span>16 × 16<span class="meta-dot">·</span>40 颗地雷</span></span>
+              <span class="level-radio"><span></span></span>
+            </button>
+            <button class="difficulty-option" data-level="hard" aria-pressed="false">
+              <span class="level-icon level-three"><span></span><span></span><span></span></span>
+              <span class="level-copy"><strong>高级</strong><span>30 × 16<span class="meta-dot">·</span>99 颗地雷</span></span>
+              <span class="level-radio"><span></span></span>
+            </button>
+          </div>
+          <div class="best-record"><div><svg class="icon"><use href="#i-trophy"/></svg><span>个人最佳</span></div><strong id="best-time">等你创造 <span>↗</span></strong></div>
+        </section>
+
+        <section class="guide-card">
+          <div class="section-top"><h2>三步，找回老手感</h2><svg class="icon guide-spark"><use href="#i-sun"/></svg></div>
+          <div class="guide-row"><span class="guide-icon"><svg class="icon"><use href="#i-mouse"/></svg></span><div><h3>点一下，探个路</h3><p>左键翻开格子，第一下总是安全。</p></div></div>
+          <div class="guide-row"><span class="guide-icon guide-number">1</span><div><h3>看数字，找线索</h3><p>数字代表周围八格中的地雷数。</p></div></div>
+          <div class="guide-row"><span class="guide-icon"><svg class="icon"><use href="#i-flag"/></svg></span><div><h3>插面旗，做个记号</h3><p>右键标记地雷，手机可切换插旗。</p></div></div>
+          <button id="more-help" class="text-button">还有一个小技巧 <svg class="icon"><use href="#i-arrow"/></svg></button>
+        </section>
+        <div class="sidebar-note"><span>✳</span><p>不用着急。<br>好答案，值得多想一格。</p><span class="note-scribble">take your time</span></div>
+      </aside>
+    </div>
+    <footer class="site-footer"><span>一个小方格，一段好时光。</span><span>经典玩法<span class="footer-dot">·</span>纯粹乐趣<span class="footer-dot">·</span>无需登录</span></footer>
+  </main>
+
+  <dialog id="help-dialog" class="modal">
+    <button class="icon-button dialog-close" data-close="help-dialog" aria-label="关闭说明"><svg class="icon"><use href="#i-close"/></svg></button>
+    <span class="modal-eyebrow">HOW TO PLAY</span><h2>一点线索，就能走得更远。</h2>
+    <p class="modal-lead">翻开所有没有地雷的格子，就算获胜。不需要把每颗地雷都插旗。</p>
+    <div class="help-item"><span class="help-key">01</span><div><h3>数字是最好的提示</h3><p>“1” 表示周围最多八个相邻格子中，恰好有一颗地雷。空白区域会自动展开。</p></div></div>
+    <div class="help-item"><span class="help-key">02</span><div><h3>用旗子标记你的判断</h3><p>电脑右键插旗或取消；手机可长按格子，也可以使用棋盘下方的“插旗”开关。插旗不会启动计时。</p></div></div>
+    <div class="help-item"><span class="help-key">03</span><div><h3>老玩家的小技巧：快速展开</h3><p>一个数字周围的旗子数量与它相同时，再点一下该数字，就会翻开周围其余格子。旗子插错了，仍然可能踩雷。</p></div></div>
+    <div class="keyboard-tip"><span>键盘也可以</span><p><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> 移动　<kbd>Enter</kbd> 翻开　<kbd>F</kbd> 插旗</p></div>
+    <button class="primary-button" data-close="help-dialog">明白了，开始扫雷 <svg class="icon"><use href="#i-arrow"/></svg></button>
+  </dialog>
+
+  <dialog id="result-dialog" class="modal result-modal">
+    <button class="icon-button dialog-close" data-close="result-dialog" aria-label="返回棋盘"><svg class="icon"><use href="#i-close"/></svg></button>
+    <div id="result-icon" class="result-icon"><svg class="icon"><use href="#i-trophy"/></svg></div>
+    <span id="result-eyebrow" class="modal-eyebrow">NICELY DONE</span>
+    <h2 id="result-title">每一步，都算数。</h2>
+    <p id="result-message">所有安全的方格，都被你找到了。</p>
+    <div class="result-stats"><div><span>本局用时</span><strong id="result-time">0<span> 秒</span></strong></div><div><span>挑战难度</span><strong id="result-level">初级</strong></div></div>
+    <p id="record-message" class="record-message" hidden>✧ 新的个人最佳，漂亮！</p>
+    <button id="play-again" class="primary-button"><svg class="icon"><use href="#i-refresh"/></svg> 再来一局</button>
+    <button class="text-button result-back" data-close="result-dialog">留在棋盘，复盘一下</button>
+  </dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
