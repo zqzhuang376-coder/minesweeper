@@ -2,9 +2,17 @@
 
 无需安装依赖的 HTML / CSS / JavaScript 小游戏。
 
+## 在线游玩
+
+[点击开始扫雷](https://zqzhuang376-coder.github.io/minesweeper/)
+
+这是提供给访客的公开游戏地址，手机和电脑都可以直接打开。网站由 GitHub Pages 托管，不需要本地电脑保持开机。
+提交到 `main` 分支后，GitHub Actions 会先运行测试，再自动发布 `dist/` 中的游戏文件。
+
 ## 本地运行
 
 在项目目录执行 `npm start`，浏览器打开 `http://127.0.0.1:4173`。
+`127.0.0.1` 只供开发者在自己的电脑上预览，需要本地服务正在运行；分享游戏请使用上面的公开地址。
 也可以使用任意静态服务器托管 `dist/` 目录。由于使用 JavaScript 模块，请通过 HTTP 打开，而不是双击 HTML 文件。
 
 ## 玩法
